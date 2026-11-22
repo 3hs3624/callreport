@@ -23,25 +23,28 @@
 
 ## 2. 실행
 
-```bash
-docker compose up -d --build     # http://localhost:8080
-```
-
-DB 없이 앱만 빌드할 때:
+`app/Dockerfile`은 미리 빌드한 jar를 복사하므로 jar를 먼저 만든다(테스트는 DB가 필요해 여기서는 건너뛴다).
 
 ```bash
 cd app
-./mvnw -B package                # Windows: mvnw.cmd -B package
+./mvnw -B package -DskipTests    # Windows: mvnw.cmd -B package -DskipTests
+cd ..
+docker compose up -d --build     # http://localhost:8080 , 목록 http://localhost:8080/callreportlist
 ```
 
 ## 3. 검증
 
+GitHub Actions(`.github/workflows/ci.yml`)가 모든 푸시와 PR에서 PostgreSQL 15 서비스를 띄우고 `mvnw -B verify`(빌드와 테스트)를 실행한다. 완료 보고 전에 CI 결과를 확인한다.
+
+로컬에서는 PostgreSQL이 떠 있는 상태에서 실행한다(`docker compose up -d db` 후).
+
 ```bash
 cd app
-./mvnw -B test
+SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/callreport ./mvnw -B verify
 ```
 
-## 4. 알려진 문제 (2026-11-22 기준)
+## 4. 알려진 사항 (2026-11-22 기준)
 
-- `app/src/main/java/com/example/callreport/model/CallReport.java`가 빈 파일이라 현재 빌드가 실패한다. `schema.sql`의 `call_report` 컬럼에 맞춰 엔티티를 작성하는 것이 첫 작업이다.
+- 엔티티 `model/CallReport.java`는 `schema.sql`의 `call_report` 컬럼과 같다. 테이블은 `spring.jpa.hibernate.ddl-auto=update`로 만들어지며 `schema.sql`은 자동 실행되지 않는다.
 - `docker-compose.yml`과 `application.properties`의 DB 계정은 로컬 개발용 값이다. 운영에서는 환경 변수로 바꾸고 실제 값을 커밋하지 않는다.
+- 등록·수정 화면은 아직 없다. 목록(`/callreportlist`)은 조회만 한다.
