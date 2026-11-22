@@ -34,4 +34,4 @@ jobs:
           java-version: '17'
           cache: maven
       - name: Build and test
-        run: sh mvnw -B verify
+        run: ./mvnw -B verify
