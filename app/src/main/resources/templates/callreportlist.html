@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Call Report List</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; }
+        th { background-color: #f2f2f2; }
+        nav ul { list-style: none; padding: 0; display: flex; }
+        nav li { margin-right: 20px; }
+    </style>
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/callreportlist">Call Report List</a></li>
+    </ul>
+</nav>
+<h2>Call Report List</h2>
+<table>
+    <thead>
+        <tr>
+            <th>지원월</th>
+            <th>담당팀</th>
+            <th>담당자</th>
+            <th>고객명</th>
+            <th>고객사 담당자</th>
+            <th>지원일자</th>
+            <th>완료여부</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="report : ${reports}">
+            <td th:text="${report.supportMonth}"></td>
+            <td th:text="${report.team}"></td>
+            <td th:text="${report.manager}"></td>
+            <td th:text="${report.customerName}"></td>
+            <td th:text="${report.customerManager}"></td>
+            <td th:text="${report.supportDate}"></td>
+            <td th:text="${report.status}"></td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>
+
+

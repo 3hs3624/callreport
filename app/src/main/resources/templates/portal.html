@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>포털 홈</title>
+    <link rel="stylesheet" href="/css/portal.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- 상단 네이비 바 -->
+    <header class="topbar">
+        <div class="left">
+            <button id="menu-btn" class="hamburger">&#9776;</button>
+            <span class="logo">opentext</span>
+            <span class="system-name">Core Universal Discovery and CMDB <span class="ver">CE 25.3</span></span>
+            <span class="top-home">홈</span>
+        </div>
+        <div class="right">
+            <span class="icon">🔍</span>
+            <span class="icon">💬</span>
+            <span class="icon">⚠️</span>
+            <span class="icon">👤</span>
+        </div>
+    </header>
+    <!-- 햄버거 메뉴 드롭다운 (좌측 상단) -->
+    <div id="side-menu" class="dropdown-menu">
+        <div class="menu-categories">
+            <div class="menu-row">
+                <div class="menu-col">
+                    <div class="menu-title"><span class="menu-ico">🔷</span> <b>모델링</b></div>
+                    <ul>
+                        <li>CI 탐색기</li>
+                        <li>안내식 모델링</li>
+                        <li>서비스 모델링</li>
+                        <li>모델링 스튜디오</li>
+                        <li>쿼리 디자이너</li>
+                        <li>CI 유형 관리자</li>
+                        <li>엔리치먼트 관리자</li>
+                    </ul>
+                </div>
+                <div class="menu-col">
+                    <div class="menu-title"><span class="menu-ico">🌐</span> <b>디스커버리 및 통합</b></div>
+                    <ul>
+                        <li>디스커버리</li>
+                        <li>통합 스튜디오</li>
+                        <li>Probe 설정</li>
+                        <li>조정 우선 순위</li>
+                        <li>어댑터 관리</li>
+                        <li>Probe 대시보드</li>
+                    </ul>
+                </div>
+                <div class="menu-col">
+                    <div class="menu-title"><span class="menu-ico">🛡️</span> <b>보안</b></div>
+                    <ul>
+                        <li>테넌트 관리</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="menu-row">
+                <div class="menu-col menu-col-wide">
+                    <div class="menu-title"><span class="menu-ico">👤</span> <b>관리</b></div>
+                    <ul>
+                        <li>인프라 설정 관리</li>
+                        <li>패키지 관리자</li>
+                        <li>받는 사람 관리자</li>
+                        <li>JMX 콘솔 <span style="font-size:13px;">&#8599;</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="menu-shortcut">
+            <ul>
+                <li><span class="shortcut-ico">🏠</span> 홈</li>
+                <li><span class="shortcut-ico">📈</span> 보고서</li>
+                <li><span class="shortcut-ico">👤</span> 리소스 관리자</li>
+            </ul>
+        </div>
+    </div>
+    <!-- 상단 탭 -->
+    <div class="tabs">
+        <button class="tab active">대시보드</button>
+        <button class="tab">인벤토리</button>
+    </div>
+    <!-- 메인 카드 그리드 -->
+    <main class="dashboard">
+        <div class="card">
+            <h4>HARDWARE NODE ELEMENT TOPOLOGY</h4>
+            <canvas id="chart1"></canvas>
+        </div>
+        <div class="card">
+            <h4>AWS CLOUD NODES BY TYPE</h4>
+            <canvas id="chart2"></canvas>
+        </div>
+        <div class="card">
+            <h4>STORAGE DEVICES BY TYPE</h4>
+            <canvas id="chart3"></canvas>
+        </div>
+        <div class="card">
+            <h4>VIRTUAL MACHINES BY DEPLOYMENT TYPE</h4>
+            <canvas id="chart4"></canvas>
+        </div>
+    </main>
+    <script>
+        // 햄버거 메뉴 드롭다운 토글
+        const menuBtn = document.getElementById('menu-btn');
+        const sideMenu = document.getElementById('side-menu');
+        menuBtn.onclick = function(e) {
+            e.stopPropagation();
+            sideMenu.classList.toggle('open');
+        };
+        document.body.onclick = function(e) {
+            if (sideMenu.classList.contains('open')) {
+                sideMenu.classList.remove('open');
+            }
+        };
+        sideMenu.onclick = function(e) { e.stopPropagation(); };
+        // Chart.js 샘플
+        new Chart(document.getElementById('chart1'), {
+            type: 'bar',
+            data: { labels: ['Interface','Cpu','Board'], datasets: [{ data: [10,2,1], backgroundColor: ['#f8b','skyblue','#8f8'] }] },
+            options: { plugins: { legend: { display: false } } }
+        });
+        new Chart(document.getElementById('chart2'), {
+            type: 'doughnut',
+            data: { labels: ['Unix','Load Balancer','Windows'], datasets: [{ data: [7,2,1], backgroundColor: ['#36a2eb','#ffcd56','#ff6384'] }] }
+        });
+        new Chart(document.getElementById('chart3'), {
+            type: 'pie',
+            data: { labels: ['Storage Array'], datasets: [{ data: [2], backgroundColor: ['#36a2eb'] }] }
+        });
+        new Chart(document.getElementById('chart4'), {
+            type: 'bar',
+            data: { labels: ['true','Empty Value','false'], datasets: [{ data: [10,2,1], backgroundColor: ['#36a2eb','#ffcd56','#ff6384'] }] },
+            options: { plugins: { legend: { display: false } } }
+        });
+    </script>
+</body>
+</html>
